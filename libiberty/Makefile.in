@@ -68,6 +68,12 @@ TARGETLIB = ./libiberty.a
 TESTLIB = ./testlib.a
 
 LIBOBJS = @LIBOBJS@
+LLVM_CONFIG_FOUND = @LLVM_CONFIG_FOUND@
+LLVM_CXXFLAGS = @LLVM_CXXFLAGS@
+LLVM_CFLAGS = @LLVM_CFLAGS@
+LLVM_LDFLAGS = @LLVM_LDFLAGS@
+LLVM_LIBS = @LLVM_LIBS@
+
 
 # A configuration can specify extra .o files that should be included,
 # even if they are in libc. (Perhaps the libc version is buggy.)
@@ -111,7 +117,7 @@ installcheck: installcheck-subdir
 
 INCDIR=$(srcdir)/$(MULTISRCTOP)../include
 
-COMPILE.c = $(CC) -c @DEFS@ $(CFLAGS) $(CPPFLAGS) -I. -I$(INCDIR) \
+COMPILE.c = $(CC) -c @DEFS@ $(CFLAGS) $(CPPFLAGS) $(shell llvm-config --cflags) -I. -I$(INCDIR) \
                $(HDEFINES) @ac_libiberty_warn_cflags@ -D_GNU_SOURCE
 
 # Just to make sure we don't use a built-in rule with VPATH

@@ -726,6 +726,12 @@ dnl Required by html and install-html
 AC_SUBST(datarootdir)
 AC_SUBST(docdir)
 AC_SUBST(htmldir)
+AC_CHECK_PROG(LLVM_CONFIG_FOUND, llvm-config, yes)
+AS_IF([test x"$LLVM_CONFIG_FOUND" != x"yes"], [AC_MSG_ERROR([Please make sure llvm-config is in your PATH.])])
+AC_SUBST([LLVM_CXXFLAGS], [$(llvm-config --cxxflags)])
+AC_SUBST([LLVM_CFLAGS], [$(llvm-config --cflags)])
+AC_SUBST([LLVM_LDFLAGS], [$(llvm-config --ldflags)])
+AC_SUBST([LLVM_LIBS], [$(llvm-config --libs)])
 
 # We need multilib support, but only if configuring for the target.
 AC_CONFIG_FILES([Makefile testsuite/Makefile])

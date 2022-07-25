@@ -29,7 +29,7 @@ class BfdByteStream : public llvm::BinaryStream {
     return llvm::support::little;
   }
 
-  llvm::Error readBytes (uint32_t Offset, uint32_t Size, llvm::ArrayRef<uint8_t> & Buffer) override
+  llvm::Error readBytes (uint64_t Offset, uint64_t Size, llvm::ArrayRef<uint8_t> & Buffer) 
   {
     //We need to cache the whole PDB file in memory:
     //During parsing, the LLVM functions first read one block of PDB data into an ArrayRef. They
@@ -47,12 +47,12 @@ class BfdByteStream : public llvm::BinaryStream {
   }
 
   llvm::Error
-  readLongestContiguousChunk (uint32_t Offset, llvm::ArrayRef<uint8_t> & Buffer) override
+  readLongestContiguousChunk (uint64_t Offset, llvm::ArrayRef<uint8_t> & Buffer) 
   {
     return readBytes (Offset, getLength () - Offset, Buffer);
   }
 
-  uint32_t getLength () override
+  uint64_t getLength () 
   {
     if (fileSize != -1)
       return fileSize;
